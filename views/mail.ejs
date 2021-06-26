@@ -6,7 +6,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="mail.css">
+    <style>
+        .navigationBar a{
+        top: 52px;
+        font-family: Inter;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 16px;
+        line-height: 19px;
+        color: white;
+        }
+        .navigationBar{
+        background:  black;
+        padding: 20px 70px;
+
+        }
+        .radio-inline{
+        padding: 5px;
+        }
+        .heading{
+        padding: 15px;
+        }
+    </style>
+
+    
     <title>Schedule a Mail</title>
 </head>
 <body>
@@ -95,7 +118,30 @@
             </div>
         </div>
     </div>
-    <script src="mail.js"></script>
+    <script src>
+        function week(){
+        document.getElementById("week").style.display="block";
+        document.getElementById("month").style.display="none";
+        document.getElementById("year").style.display="none";
+        }
+        function month(){
+        document.getElementById("week").style.display="none";
+        document.getElementById("month").style.display="block";
+        document.getElementById("year").style.display="none";
+        }
+        function year(){
+        document.getElementById("week").style.display="none";
+        document.getElementById("month").style.display="none";
+        document.getElementById("year").style.display="block";
+        }
+        function recurr(){
+        document.getElementById("week").style.display="none";
+        document.getElementById("month").style.display="none";
+        document.getElementById("year").style.display="none";
+        }
+    </script>
+    
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

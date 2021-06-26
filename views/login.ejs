@@ -6,7 +6,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="login.css">
+    <style>
+        
+        .navigationBar a{
+            top: 52px;
+            font-size: 16px;
+            line-height: 19px;
+            color: white;
+        }
+        .navigationBar{
+            background:  black;
+            padding: 20px 70px;
+
+        }
+
+        #buttons{
+            margin: 15px;
+            padding: 10px;
+        }
+    </style>
     <title>Login/SignUp</title>
 </head>
 <body>
@@ -78,7 +96,21 @@
    </div>
         
     
-    <script src="login.js"></script>
+    <script >
+            function signup()
+    {
+        document.getElementById("login-form").style.display = "none";
+        document.getElementById("signup-form").style.display = "block";
+    }
+
+    function login()
+    {
+        document.getElementById("signup-form").style.display = "none";
+        document.getElementById("login-form").style.display = "block";
+        
+    }
+
+    </script>
     
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
