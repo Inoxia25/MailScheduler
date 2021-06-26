@@ -15,7 +15,7 @@ app.use(session({
 //Connecting database
 mongoose.connect(
     //"mongodb+srv://dbUser:dbUser@cluster0.uijgw.mongodb.net/test?retryWrites=true&w=majority",
-   //"mongodb+srv://chehak:123@cluster0.ca1bc.mongodb.net/UserDB",
+   "mongodb+srv://chehak:123@cluster0.ca1bc.mongodb.net/UserDB",
     {
       useNewUrlParser: true,
       useUnifiedTopology: true,
