@@ -39,6 +39,16 @@ mongoose.connect(
 app.get('/', function(req, res) {
   res.render('login');
 });
+app.get('/home', function(req, res) {
+  res.render('home');
+});
+app.get('/history', function(req, res) {
+  res.render('history');
+});
+app.get('/mail', function(req, res) {
+  res.render('mail');
+});
+
 
 app.post('/mail',function(req,res){
   res.send(req.body);
