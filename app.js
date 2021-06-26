@@ -9,6 +9,7 @@ const passportLocalMongoose = require("passport-local-mongoose");
 const  User = require("./models/user");
 app.set('view engine', 'ejs');
 const bodyParser = require("body-parser");
+const schedule = require('node-schedule');
 
 app.use(session({
   resave: false,
@@ -119,21 +120,44 @@ app.post('/mail',function(req,res){
   }
   else if(scheduletype == 'yearly')
   {//console.log("year");
-    c='* * * * *';
-  }
- }
-  cron.schedule(c, () => {
-    // Send e-mail
-    transporter.sendMail(mailOptions, function(error, info){
+    var d=date[1];
+    var l= d.length;
+    var ndate = d[l-2] + d[l-1]; 
+    ndate = parseInt(ndate);
+    var nmnth = d[l-5] + d[l-4];
+    nmth=parseInt(nmnth);
+    nmnth=nmnth-1;
+    console.log("year  " + ndate);
+    console.log(nmnth);
+    const job = schedule.scheduleJob({hour: hour, minute: minute,
+       date: ndate,month:nmnth}, function(){
+        transporter.sendMail(mailOptions, function(error, info){
           if (error) {
             console.log(error);
           } else {
             console.log('Email sent: ' + info.response);
           }
       });
-      console.log("cron is running at " + c);
+      console.log("cron is running at ");
     });
-
+    //c='* * * * *';
+  }
+ }
+  if(scheduletype != "yearly")
+  {
+    cron.schedule(c, () => {
+      // Send e-mail
+      transporter.sendMail(mailOptions, function(error, info){
+            if (error) {
+              console.log(error);
+            } else {
+              console.log('Email sent: ' + info.response);
+            }
+        });
+        console.log("cron is running at " + c);
+      });
+  
+  }
 })
 const port = process.env.PORT || 3000;
 app.listen(port , () => console.log('App listening on port ' + port));
