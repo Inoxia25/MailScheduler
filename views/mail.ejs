@@ -50,39 +50,60 @@
         </div>
         <div class="row">
             <div class="col-12">
-                <form action="#" method="POST" role="form">
+                <form action="/mail" method="POST" role="form">
                     <div class="form-group">
-                        <input type="text" name="to" id="to" class="form-control" placeholder="To" value="">
+                        <input type="email" name="to" id="to" class="form-control" placeholder="To" value="">
                     </div>
                     <div class="form-group">
-                        <input type="text" name="cc" id="cc" class="form-control" placeholder="CC" value="">
+                        <input type="email" name="cc" id="cc" class="form-control" placeholder="CC" value="">
                     </div>
                     <div class="form-group">
                         <input type="text" name="subject" id="subject" class="form-control" placeholder="Subject" value="">
                     </div>
                     <div class="form-group">
-                        <textarea placeholder="Mail Body" name="mail-body" id="mail-body" class="form-control"  value="">
-                        </textarea>
+                        <textarea required class="form-control" name="body" id="" cols="30" rows="10" placeholder="Body:"></textarea>
                     </div>
                     <div class="form-group justify-content-center text-center">
                         <h5 class="text-center">Select the Schedule</h5>
                         <label class="radio-inline" onclick="recurr()"> 
-                            <input type="radio" name="optradio" value="recuring">Recurring Schedule
+                            <input type="radio" name="scheduletype" value="recuring">Recurring Schedule
                           </label>
                           <label class="radio-inline" onclick="week()">
-                            <input type="radio" name="optradio" value="weekly" >Weekly Schedule
+                            <input type="radio" name="scheduletype" value="weekly" >Weekly Schedule
                           </label>
                           <label class="radio-inline" onclick="month()">
-                            <input type="radio" name="optradio" value="monthly" >Monthly Schedule
+                            <input type="radio" name="scheduletype" value="monthly" >Monthly Schedule
                           </label>
                           <label class="radio-inline" onclick="year()">
-                            <input type="radio" name="optradio" value="yearly" >Yearly Schedule
+                            <input type="radio" name="scheduletype" value="yearly" >Yearly Schedule
                           </label>
                         
                     </div>
                     <div id="week" style="display: none;">
-                        <div class="form-group">
-                            <input type="text" name="day" id="day" class="form-control" placeholder="Day of Week" value="">
+                        <div class="form-group justify-content-center text-center">
+                            <h5 class="text-center">Select the Day</h5>
+                            <label class="radio-inline"> 
+                                <input type="radio" name="day" value="1">Monday
+                              </label>
+                              <label class="radio-inline" >
+                                <input type="radio" name="day" value="2" >Tuesday
+                              </label>
+                              <label class="radio-inline" >
+                                <input type="radio" name="day" value="3" >Wednesday
+                              </label>
+                              <label class="radio-inline" >
+                                <input type="radio" name="day" value="4" >Thursday
+                              </label>
+                              <label class="radio-inline" >
+                                <input type="radio" name="day" value="5" >Friday
+                              </label>
+                              <label class="radio-inline" >
+                                <input type="radio" name="day" value="6" >Saturday
+                              </label>
+                              <label class="radio-inline" >
+                                <input type="radio" name="day" value="7" >Sunday
+                              </label>
+                            
                         </div>
                         <div class="form-group">
                             <input type="time" name="time" id="time" class="form-control">
