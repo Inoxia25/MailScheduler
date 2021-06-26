@@ -47,8 +47,8 @@ app.use(passport.session());
 
 app.set('view engine', 'ejs');
 
-app.get('/mail', (req, res) => //res.send(userProfile)
-res.render("mail")
+app.get('/mail', (req, res) => res.send(userProfile)
+//res.render("mail",{user:userProfile})
 );
 app.get('/error', (req, res) => res.send("error logging in"));
 
@@ -110,7 +110,11 @@ app.use(passport.session());
           return res.redirect("/");
         } 
         passport.authenticate("local")(req, res, function () {
-          res.redirect("/mail");
+            User={
+                name:req.body.username,
+
+            }
+          res.render("mail",{user:User});
         });
       }
     );
