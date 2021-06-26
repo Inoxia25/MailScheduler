@@ -6,6 +6,7 @@ const LocalStrategy = require("passport-local");
 const passportLocalMongoose = require("passport-local-mongoose");
 const  User = require("./models/user");
 app.set('view engine', 'ejs');
+const bodyParser = require("body-parser");
 
 app.use(session({
   resave: false,
@@ -29,6 +30,9 @@ mongoose.connect(
       saveUninitialized: false,
     })
   );
+  app.use(bodyParser.urlencoded({
+    extended: true
+  }));
 app.get('/', function(req, res) {
   res.render('login');
 });
@@ -43,7 +47,9 @@ app.use(passport.session());
 
 app.set('view engine', 'ejs');
 
-app.get('/mail', (req, res) => res.send(userProfile));
+app.get('/mail', (req, res) => //res.send(userProfile)
+res.render("mail")
+);
 app.get('/error', (req, res) => res.send("error logging in"));
 
 passport.serializeUser(function(user, cb) {
@@ -89,24 +95,22 @@ app.use(passport.session());
 
 //AUTH ROUTES
 //show register form
-app.get("/register", (req, res) => {
+/*app.get("/register", (req, res) => {
     res.redirect("/");
-  });
+  });*/
   //handle sign up logic
   app.post("/register", function (req, res) {
-    console.log(req.body.dropdown-group);
+      console.log(req.body);
     User.register(
-      new User({ username: req.body.username, name: req.body.name ,is_mentor:req.body.mentor}),
+      new User({ username:req.body.username,mail:req.body.email}),
       req.body.password,
       function (err, user) {
         if (err) {
           console.log(err);
-          // req.flash("error",err.message); //this prints the err as error on the screen. error object has many things and err.message gives us the problem occured
-          return res.redirect("/register");
-        } //in these cases always use res.redirect and not res.render as in res.render we dont go through the app.get route so the middlware where we specify req.error is not utilized
+          return res.redirect("/");
+        } 
         passport.authenticate("local")(req, res, function () {
-          //req.flash("success","Welcome"+user.username);
-          res.redirect("/");
+          res.redirect("/mail");
         });
       }
     );
@@ -114,9 +118,7 @@ app.get("/register", (req, res) => {
   
   //show login form
   app.get("/login", function (req, res) {
-    //res.render("login.ejs");
-    res.redirect("/" + "#login");
-    //res.redirect("/");
+    res.render("login");
   });
   
   app.post(
