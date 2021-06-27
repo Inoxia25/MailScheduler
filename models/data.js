@@ -27,4 +27,4 @@ const MailSchema = new mongoose.Schema({
 });
 
 
-module.exports = mongoose.model("Mail", MailSchema);
+module.exports = mongoose.model("Maildata", MailSchema);
