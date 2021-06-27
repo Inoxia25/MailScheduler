@@ -24,6 +24,31 @@
             margin: 15px;
             padding: 10px;
         }
+        #login , #signup{
+            background-color: rgb(224, 210, 210);
+            border-radius: 10px;
+            padding: 8px 20px;
+            font-size: large;
+            font-weight: bold;
+        }
+        .btn-login , .btn-register{
+            background-color: rgb(224, 210, 210);
+            border-radius: 25px;
+            padding: 10px 50px;
+            font-size: large;
+            font-weight: bold;
+        }
+        .ggl-btn{
+            background-color: rgb(252, 86, 86);
+            padding: 10px 50px;
+            border-radius: 20px;
+        }
+        .ggl-btn a{
+            text-decoration: none;
+            color: black;
+            font-size: large;
+            font-weight: bold;
+        }
     </style>
     <title>Login/SignUp</title>
 </head>
@@ -40,10 +65,10 @@
    <div class="container">
        <div class="row" id="buttons">
            <div class="col-6 justify-content-right text-right">
-               <button id="login" onclick="login()">Login</button>
+               <button id="login" class="btn" onclick="login()">Login</button>
            </div>
            <div class="col-6">
-               <button id="signup" onclick="signup()">SignUp</button>
+               <button id="signup" class="btn" onclick="signup()">SignUp</button>
            </div>
        </div>
        <div class="row " id="login-form" style="display: block;">
@@ -58,11 +83,11 @@
                 </div>
                 <div class="form-group">
                     <div class="col-12 col-sm-offset-3">
-                        <input type="submit" name="login-submit" id="login-submit" tabindex="4" class="form-control btn btn-login" value="Log In">
+                        <input type="submit" name="login-submit" id="login-submit" class=" btn btn-login" value="Log In">
                     </div>
                 </div>
                </form>
-               <button class="btn"><a href="/auth/google">Login with Gmail</a></button>
+               <button class="btn ggl-btn"><a href="/auth/google">Login with Gmail</a></button>
            </div>
        </div>
        <div class="row " id="signup-form" style="display: none;">
@@ -84,12 +109,12 @@
                 <div class="form-group">
                     <div class="row">
                         <div class="col-12 col-sm-offset-3">
-                            <input type="submit" name="register-submit" id="register-submit" tabindex="4" class="form-control btn btn-register" value="Register Now">
+                            <input type="submit" name="register-submit" id="register-submit" tabindex="4" class="btn btn-register" value="Register Now">
                         </div>
                     </div>
                 </div>
                </form>
-               <button class="btn"><a href="/auth/google">SignUp with Gmail</a></button>
+               <button class="btn ggl-btn"><a href="/auth/google">SignUp with Gmail</a></button>
            </div>
 
        </div>

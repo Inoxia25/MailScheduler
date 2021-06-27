@@ -9,9 +9,13 @@ const passportLocalMongoose = require("passport-local-mongoose");
 const User = require("./models/user");
 const Mail = require("./models/mail");
 app.set("view engine", "ejs");
+//const  User = require("./models/user");
+const Maildata = require("./models/data");
+app.set('view engine', 'ejs');
 const bodyParser = require("body-parser");
 const schedule = require("node-schedule");
-
+var password;
+var username;
 app.use(
   session({
     resave: false,
@@ -25,6 +29,26 @@ mongoose.connect("mongodb+srv://chehak:123@cluster0.mahsn.mongodb.net/mailDB", {
   useUnifiedTopology: true,
   useCreateIndex: true,
 });
+app.get('/home',(req,res,next) =>{
+  //Here fetch data using mongoose query like
+  Maildata.findOne({username: 'Username here'}, function(err, users) {
+  if (err) throw err;
+  // object of all the users
+  res.render('home',{users:users.schedule});
+})
+});
+app.get('/history',(req,res,next) =>{
+  //Here fetch data using mongoose query like
+  Maildata.findOne({username: 'Username here'}, function(err, users) {
+  if (err) throw err;
+  // object of all the users
+  res.render('history',{users:users.history});
+})
+});
+app.get('/mail', function(req, res) {
+  res.render('mail',{user:userProfile});
+});
+
 
 app.use(
   require("express-session")({
@@ -43,29 +67,31 @@ app.get("/", function (req, res) {
 });
 
 app.post("/mail/:email", function (req, res) {
-  res.send(req.body);
+  //res.send(req.body);
   to = req.body.to;
   cc = req.body.cc;
   subject = req.body.subject;
-  mailbody = req.body.mailbody;
+  body = req.body.body;
+  console.log("🚀 ~ file: app.js ~ line 74 ~  body",  body)
   scheduletype = req.body.scheduletype;
   t = req.body.time;
   date = req.body.date;
   day = req.body.day;
+  console.log(password);
   var transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
-      user: "nandini.jain..cd.eee19@itbhu.ac.in",
-      pass: "nandini123", //PASSWORD ADDED
-      //pass: "####INSERTYOURPASSWORDHERE####",
+      user: req.params.email,
+      pass: "####INSERTYOURPASSWORDHERE####", //PASSWORD ADDED
+      //pass: ",
     },
   });
 
   var mailOptions = {
-    from: "nandini.jain..cd.eee19@itbhu.ac.in",
+    from: "nandini.jain.cd.eee19@itbhu.ac.in",
     to: to + "," + cc,
     subject: subject,
-    text: mailbody,
+    text: body,
   };
   var c = "";
   var hour = "";
@@ -124,6 +150,7 @@ app.post("/mail/:email", function (req, res) {
               console.log(error);
             } else {
               console.log("Email sent: " + info.response);
+
             }
           });
           console.log("cron is running at ");
@@ -146,7 +173,7 @@ app.post("/mail/:email", function (req, res) {
     });
   }
   //posting mail to db
-  User.find({ mail: req.params.email }, function (err, found) {
+  User.findOne({ mail: req.params.email }, function (err, found) {
     if (err) {
       console.log(err);
       res.redirect("mail");
@@ -158,7 +185,7 @@ app.post("/mail/:email", function (req, res) {
         mailto: to,
         mailcc: cc,
         subject: subject,
-        body: mailbody,
+        body: body,
         schedule: scheduletype,
         // time: t,
         // date: date,
@@ -174,13 +201,14 @@ app.post("/mail/:email", function (req, res) {
           newMail.save();
           //add mail to user
           if(found.mail==undefined)
-          found.mails[0]=newMail;
+          found.mails=[newMail];
           else
-          found.mails.push(newMail);
+          found.mails.push(newMail)
+
           //save user
           found.save();
           //redirect to campground show page
-          res.redirect("/mail");
+          res.render("home",{users:userProfile});
         }
       });
     }
@@ -289,6 +317,8 @@ app.use(passport.session());
 //handle sign up logic
 app.post("/register", function (req, res) {
   console.log(req.body);
+  password=req.body.password;
+  username=req.body.username;
   User.register(
     new User({ username: req.body.username, mail: req.body.email }),
     req.body.password,
@@ -298,13 +328,13 @@ app.post("/register", function (req, res) {
         return res.redirect("/");
       }
       passport.authenticate("local")(req, res, function () {
-        User = {
+        var Userobj = {
           name: {
             givenName: req.body.username,
           },
           emails: [{ value: req.body.email }],
         };
-        res.render("mail", { user: User });
+        res.render("mail", { user: Userobj });
       });
     }
   );
@@ -321,7 +351,7 @@ app.post(
     successRedirect: "/",
     failureRedirect: "/login",
   }),
-  function (req, res) {}
+  function (req, res) {password=req.body.password; username=req.body.username;}
 );
 //LOGOUT
 app.get("/logout", function (req, res) {

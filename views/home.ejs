@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        .navigationBar a{
+        top: 52px;
+        font-family: Inter;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 16px;
+        line-height: 19px;
+        color: white;
+        }
+        .navigationBar{
+        background:  black;
+        padding: 20px 70px;
+
+        }
+        .compose{
+            background-color: lightgray;
+            border-radius: 20px;
+            margin: 5px;
+            padding: 10px;
+        }
+        .compose a{
+            text-decoration: none;
+            color: black;
+        }
+        .details{
+            background-color: lightgrey;
+            border-radius: 9px;
+            margin: 8px;
+            padding: 5px;
+        }
+    </style>
+
+    
+    <title>Home</title>
+</head>
+<body>
+    <nav class="navbar  navbar-expand-sm  navigationBar container-fluid">
+        <button class="btn compose">
+            <a href="/mail">Compose Mail</a>
+        </button>
+        <ul class="navbar-nav ml-auto ">
+            <li class="nav-item "><a class="nav-link" href="/home">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="/history">History</a></li>
+            <li class="nav-item"><a class="nav-link" href="/">Login/SignUp</a></li>
+        </ul>  
+    
+    </nav>
+   <div class="container">
+       <div class="row">
+           <div class="col-12 text-center">
+               <h4 style="padding: 8px;">Upcoming Mails</h4>
+           </div>
+       </div>
+   </div>
+    <div class="container">
+        <div class="row">
+            <% users.forEach(function(item){ %>
+                <div class="details col-12 justify-content-center text-center">
+                    <div>To: <%= item.to%></div>
+                    <div>CC: <%= item.cc %></div>
+                    <div>Subject: <%= item.subject%></div>
+                    <div>Body: <%= item.mailbody %></div><br>
+                    <div class="row">
+                    <div class="col-4">Schedule Type: <%= item.scheduletype%></div>
+                    <div class="col-4">Sending Date: <%= item.date%></div>
+                    <div class="col-4">Sending Time: <%= item.time%></div>
+                    </div>
+                </div>
+                <% }) %>
+           </div>
+    </div>
+    
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    
+</body>
+</html>
