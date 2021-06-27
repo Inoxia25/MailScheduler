@@ -82,13 +82,13 @@ app.post("/mail/:email", function (req, res) {
     service: "gmail",
     auth: {
       user: req.params.email,
-      pass: "####INSERTYOURPASSWORDHERE####", //PASSWORD ADDED
+      pass:password, //PASSWORD ADDED
       //pass: ",
     },
   });
 
   var mailOptions = {
-    from: "nandini.jain.cd.eee19@itbhu.ac.in",
+    from: req.params.email,
     to: to + "," + cc,
     subject: subject,
     text: body,
