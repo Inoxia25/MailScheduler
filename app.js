@@ -51,16 +51,7 @@ app.get('/mail', function(req, res) {
 
 
 app.post('/mail',function(req,res){
-  var myData = new Mail(req.body);
-  myData.user = "add user mail";
-  myData.save().then(()=>{
-   res.send('Data received:\n' + JSON.stringify(req.body));
-   console.log(myData);
-  }).catch(()=>{
-  res.status(400).send('item was not saved to the databse')
-})
-
-
+  res.send("Mail is Scheduled");
   to=req.body.to;
   cc=req.body.cc;
   subject=req.body.subject;
@@ -151,18 +142,9 @@ app.post('/mail',function(req,res){
             console.log(error);
           } else {
             console.log('Email sent: ' + info.response);
-            var myData = new History(req.body);
-              myData.user = "add user mail";
-              myData.sentdate= new Date();
-              
-              myData.save().then(()=>{
-              console.log(myData);
-              }).catch(()=>{
-              res.status(400).send('history item was not saved to the databse')
-              })
-          }
+            }
       });
-      console.log("cron is running at ");
+      console.log("sending yearly mail");
     });
     //c='* * * * *';
   }
@@ -296,31 +278,3 @@ app.use(passport.session());
     res.redirect("/");
   });
 
-// home page mail schema
-  const mailSchema = new mongoose.Schema({
-    to: String,
-    cc: String,
-    subject: String,
-    mailbody: String,
-    scheduletype: String,
-    day: Number,
-    date: [String],
-    time: [String],
-    user: String
-    
-  });
-  const Mail= mongoose.model('mail', mailSchema);
-
-  // history page mail schema
-  const historySchema = new mongoose.Schema({
-    to: String,
-    cc: String,
-    subject: String,
-    mailbody: String,
-    scheduletype: String,
-    day: Number,
-    sentdate: String,
-    user: String
-    
-  });
-  const History= mongoose.model('history', historySchema);
