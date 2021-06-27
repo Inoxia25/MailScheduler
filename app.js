@@ -82,7 +82,7 @@ app.get("/", function (req, res) {
 });
 
 app.post("/mail/:email", function (req, res) {
-  res.send("Your Mail will be Sent");
+  //res.send("Your Mail will be Sent");
   to = req.body.to;
   cc = req.body.cc;
   subject = req.body.subject;
