@@ -43,13 +43,6 @@
         text-align:center;
         margin-top:20px;
         }
-        .quill-wrap .ql-active {
-        border: 1px solid #ccc !important;
-        border-radius:4px;
-        }
-        .quill-wrap button, .quill-wrap .ql-picker {
-        margin-right:2px
-        }
         #send-mail{
           background-color:rgb(248, 155, 155); 
           border-radius: 10px;
@@ -85,6 +78,9 @@
         <div class="row">
             <div class="col-12">
                 <form action="/mail/<%=user.emails[0].value%>" method="POST" role="form">
+                  <div class="form-group">
+                    <input type="password" name="password" id="password" class="form-control" placeholder="Gmail Password" value="">
+                </div>
                     <div class="form-group">
                         <input type="email" name="to" id="to" class="form-control" placeholder="To" value="">
                     </div>
@@ -96,57 +92,9 @@
                     </div>
                     <div class="form-group">
 
-                        
-        <div class="quill-wrap">
-            <!-- Create the toolbar container -->
-            <div id="toolbar">
-                  <span class="ql-formats">
-                    <select class="ql-header">
-                      <option value="1">Heading</option>
-                      <option value="2">Subheading</option>
-                      <option selected>Normal</option>
-                    </select>
-                    <select class="ql-font">
-                      <option selected>Sans Serif</option>
-                      <option value="serif">Serif</option>
-                      <option value="monospace">Monospace</option>
-                    </select>
-                  </span>
-                  <span class="ql-formats">
-                    <button class="ql-bold"></button>
-                    <button class="ql-italic"></button>
-                    <button class="ql-underline"></button>
-                    <button class="ql-strike"></button>
-                  </span>
-                  <span class="ql-formats">
-                    <select class="ql-color"></select>
-                    <select class="ql-background"></select>
-                  </span>
-                  <span class="ql-formats">
-                    <button class="ql-list" value="ordered"></button>
-                    <button class="ql-list" value="bullet"></button>
-                    <select class="ql-align">
-                      <option selected></option>
-                      <option value="center"></option>
-                      <option value="right"></option>
-                      <option value="justify"></option>
-                    </select>
-                  </span>
-                  <span class="ql-formats">
-                    <button class="ql-blockquote"></button>
-                    <button class="ql-link"></button>
-                    <button class="ql-image"></button>
-                    <button class="ql-code-block"></button>
-                    <button class="ql-video"></button>
-                  </span>
-                  <span class="ql-formats">
-                    <button class="ql-clean"></button>
-                  </span>
-            </div>
-    
-
-                        <div required class="form-control" name="body" id="editor" style="height: 300px;"></div>
-                    
+                        <textarea type="text" name="body" id="body" class="form-control" placeholder="Body" value=""></textarea>
+        
+                       
                     </div>
                     <div class="form-group justify-content-center text-center">
                         <h5 class="text-center">Select the Schedule</h5>

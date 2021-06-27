@@ -10,12 +10,12 @@ const User = require("./models/user");
 const Mail = require("./models/mail");
 app.set("view engine", "ejs");
 //const  User = require("./models/user");
-const Maildata = require("./models/data");
+//const Maildata = require("./models/data");
 app.set('view engine', 'ejs');
 const bodyParser = require("body-parser");
 const schedule = require("node-schedule");
 var password;
-var username;
+var username="";
 app.use(
   session({
     resave: false,
@@ -31,19 +31,34 @@ mongoose.connect("mongodb+srv://chehak:123@cluster0.mahsn.mongodb.net/mailDB", {
 });
 app.get('/home',(req,res,next) =>{
   //Here fetch data using mongoose query like
-  Maildata.findOne({username: 'Username here'}, function(err, users) {
+console.log("user"+ username);
+  User.find({username: username}).populate("mails").exec(function(err,users){
+		if(err) { console.log(err);}
+		else{
+      console.log(users.mails)
+			res.render('home',{users:users.mails});
+		}
+	})
+
+
+ /* User.findOne({username: username}, function(err, users) {
   if (err) throw err;
   // object of all the users
-  res.render('home',{users:users.schedule});
-})
+  res.render('home',{users:users.mails});*/
+
 });
 app.get('/history',(req,res,next) =>{
   //Here fetch data using mongoose query like
-  Maildata.findOne({username: 'Username here'}, function(err, users) {
+  User.find({username: username}).populate("history").exec(function(err,users){
+		if(err) {console.log(err);}
+		else{
+			res.render('history',{users:users.history});
+		}
+	})
+ /* User.findOne({username: 'Username here'}, function(err, users) {
   if (err) throw err;
   // object of all the users
-  res.render('history',{users:users.history});
-})
+  res.render('history',{users:users.history});*/
 });
 app.get('/mail', function(req, res) {
   res.render('mail',{user:userProfile});
@@ -67,11 +82,12 @@ app.get("/", function (req, res) {
 });
 
 app.post("/mail/:email", function (req, res) {
-  //res.send(req.body);
+  res.send("Your Mail will be Sent");
   to = req.body.to;
   cc = req.body.cc;
   subject = req.body.subject;
   body = req.body.body;
+  password=req.body.password;
   console.log("🚀 ~ file: app.js ~ line 74 ~  body",  body)
   scheduletype = req.body.scheduletype;
   t = req.body.time;
@@ -200,7 +216,7 @@ app.post("/mail/:email", function (req, res) {
         } else {
           newMail.save();
           //add mail to user
-          if(found.mail==undefined)
+          if(!(found.mail))
           found.mails=[newMail];
           else
           found.mails.push(newMail)
@@ -208,7 +224,13 @@ app.post("/mail/:email", function (req, res) {
           //save user
           found.save();
           //redirect to campground show page
-          res.render("home",{users:userProfile});
+          User.find({mail: username}).populate("mails").exec(function(err,users){
+            if(err) {console.log(err);}
+            else{
+              res.render('home',{users:users.mails});
+            }
+          })
+          //res.render("home",{users:userProfile});
         }
       });
     }
@@ -272,11 +294,16 @@ app.get(
   function (req, res) {
     // Successful authentication, redirect success.
     //storing in db after google sign in
+    username=username+userProfile.emails[0].value;
+    console.log("authuser" , username);
     User.find({ mail: userProfile.emails[0].value }, function (err, found) {
       if (err) {
         console.log(err);
       } else {
-        if (found == []) {
+        console.log(found);
+        console.log(Array.isArray(found) && found.length);
+        if ((Array.isArray(found) && found.length)==0) {
+          console.log("found" + found);
           //if not present in db, then store it
           User.register(
             new User({

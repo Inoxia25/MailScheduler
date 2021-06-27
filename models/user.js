@@ -7,6 +7,10 @@ const UserSchema = new mongoose.Schema({
   mails: [{
     type: mongoose.Schema.Types.ObjectId, //embedding the reference to ids of mail
     ref: "Mail" //the model name
+  }],
+  history: [{
+    type: mongoose.Schema.Types.ObjectId, //embedding the reference to ids of mail
+    ref: "History" //the model name
   }]
   
 });
