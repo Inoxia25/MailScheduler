@@ -12,6 +12,7 @@ const UserSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId, //embedding the reference to ids of mail
     ref: "History" //the model name
   }]
+  
 });
 UserSchema.plugin(passportLocalMongoose);
 module.exports = mongoose.model("User", UserSchema);
