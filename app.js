@@ -7,6 +7,7 @@ let cron = require("node-cron");
 let nodemailer = require("nodemailer");
 const passportLocalMongoose = require("passport-local-mongoose");
 const User = require("./models/user");
+const Mail = require("./models/mail");
 app.set("view engine", "ejs");
 const bodyParser = require("body-parser");
 const schedule = require("node-schedule");
@@ -55,7 +56,7 @@ app.post("/mail/:email", function (req, res) {
     service: "gmail",
     auth: {
       user: "nandini.jain..cd.eee19@itbhu.ac.in",
-      pass: "nandini123"   //PASSWORD ADDED
+      pass: "nandini123", //PASSWORD ADDED
       //pass: "####INSERTYOURPASSWORDHERE####",
     },
   });
@@ -144,6 +145,46 @@ app.post("/mail/:email", function (req, res) {
       console.log("cron is running at " + c);
     });
   }
+  //posting mail to db
+  User.find({ mail: req.params.email }, function (err, found) {
+    if (err) {
+      console.log(err);
+      res.redirect("mail");
+    }
+    //create new comments
+    else {
+      console.log(found);
+      var mail = {
+        mailto: to,
+        mailcc: cc,
+        subject: subject,
+        body: mailbody,
+        schedule: scheduletype,
+        // time: t,
+        // date: date,
+        // day: day,
+      };
+      console.log("🚀 ~ file: app.js ~ line 167 ~ mail", mail)
+      Mail.create(mail, function (err, newMail) {
+        console.log("🚀 ~ file: app.js ~ line 169 ~ newMail", newMail)
+        if (err) {
+          console.log(err);
+          res.redirect("back");
+        } else {
+          newMail.save();
+          //add mail to user
+          if(found.mail==undefined)
+          found.mails[0]=newMail;
+          else
+          found.mails.push(newMail);
+          //save user
+          found.save();
+          //redirect to campground show page
+          res.redirect("/mail");
+        }
+      });
+    }
+  });
 });
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log("App listening on port " + port));
@@ -203,28 +244,32 @@ app.get(
   function (req, res) {
     // Successful authentication, redirect success.
     //storing in db after google sign in
-    /*User.register(
-      new User({
-        username: userProfile.name.givenName,
-        mail: userProfile.emails[0].value,
-      }),
-      userProfile.id,
-      function (err, user) {
-        if (err) {
-          console.log(err);
-          return res.redirect("/");
+    User.find({ mail: userProfile.emails[0].value }, function (err, found) {
+      if (err) {
+        console.log(err);
+      } else {
+        if (found == []) {
+          //if not present in db, then store it
+          User.register(
+            new User({
+              username: userProfile.name.givenName,
+              mail: userProfile.emails[0].value,
+            }),
+            userProfile.id,
+            function (err, user) {
+              if (err) {
+          console.log("🚀 ~ file: app.js ~ line 260 ~ newMail", newMail)
+          console.log("🚀 ~ file: app.js ~ line 260 ~ newMail", newMail)
+                console.log(err);
+                return res.redirect("/");
+              }
+              passport.authenticate("local")(req, res, function () {});
+            }
+          );
         }
-        passport.authenticate("local")(req, res, function () {
-          //   User={
-          //       name={
-          //         givenName:req.body.username
-          //       },
-          //       emails=[{value:req.body.email}]
-          //   };
-          // res.render("mail",{user:User});
-        });
       }
-    );*/
+    });
+
     res.redirect("/mail");
   }
 );
