@@ -7,6 +7,7 @@ let cron = require('node-cron');
 let nodemailer = require('nodemailer');
 const passportLocalMongoose = require("passport-local-mongoose");
 const  User = require("./models/user");
+const Maildata = require("./models/data");
 app.set('view engine', 'ejs');
 const bodyParser = require("body-parser");
 const schedule = require('node-schedule');
@@ -39,11 +40,21 @@ mongoose.connect(
 app.get('/', function(req, res) {
   res.render('login');
 });
-app.get('/home', function(req, res) {
-  res.render('home');
+app.get('/home',(req,res,next) =>{
+  //Here fetch data using mongoose query like
+  Maildata.findOne({username: 'Username here'}, function(err, users) {
+  if (err) throw err;
+  // object of all the users
+  res.render('home',{users:users.schedule});
+})
 });
-app.get('/history', function(req, res) {
-  res.render('history');
+app.get('/history',(req,res,next) =>{
+  //Here fetch data using mongoose query like
+  Maildata.findOne({username: 'Username here'}, function(err, users) {
+  if (err) throw err;
+  // object of all the users
+  res.render('history',{users:users.history});
+})
 });
 app.get('/mail', function(req, res) {
   res.render('mail');
