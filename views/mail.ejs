@@ -4,8 +4,12 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link href="https://cdn.quilljs.com/1.0.0/quill.snow.css" rel="stylesheet">
+
     <style>
         .navigationBar a{
         top: 52px;
@@ -27,12 +31,34 @@
         .heading{
         padding: 15px;
         }
+
+        .quill-wrap {
+        max-width:900px;
+        width:100%;
+        margin-left:auto;
+        margin-right:auto;
+        margin-top:20px;
+        }
+        .info {
+        text-align:center;
+        margin-top:20px;
+        }
+        .quill-wrap .ql-active {
+        border: 1px solid #ccc !important;
+        border-radius:4px;
+        }
+        .quill-wrap button, .quill-wrap .ql-picker {
+        margin-right:2px
+        }
+
+
     </style>
 
     
     <title>Schedule a Mail</title>
 </head>
 <body>
+
     <nav class="navbar  navbar-expand-sm  navigationBar container-fluid">
 
         <ul class="navbar-nav ml-auto ">
@@ -48,6 +74,8 @@
                 <h2 class="heading">Schedule a Mail</h2>
             </div>
         </div>
+<!--  -->
+
         <div class="row">
             <div class="col-12">
                 <form action="/mail" method="POST" role="form">
@@ -61,7 +89,58 @@
                         <input type="text" name="subject" id="subject" class="form-control" placeholder="Subject" value="">
                     </div>
                     <div class="form-group">
-                        <textarea required class="form-control" name="body" id="" cols="30" rows="10" placeholder="Body:"></textarea>
+
+                        
+        <div class="quill-wrap">
+            <!-- Create the toolbar container -->
+            <div id="toolbar">
+                  <span class="ql-formats">
+                    <select class="ql-header">
+                      <option value="1">Heading</option>
+                      <option value="2">Subheading</option>
+                      <option selected>Normal</option>
+                    </select>
+                    <select class="ql-font">
+                      <option selected>Sans Serif</option>
+                      <option value="serif">Serif</option>
+                      <option value="monospace">Monospace</option>
+                    </select>
+                  </span>
+                  <span class="ql-formats">
+                    <button class="ql-bold"></button>
+                    <button class="ql-italic"></button>
+                    <button class="ql-underline"></button>
+                    <button class="ql-strike"></button>
+                  </span>
+                  <span class="ql-formats">
+                    <select class="ql-color"></select>
+                    <select class="ql-background"></select>
+                  </span>
+                  <span class="ql-formats">
+                    <button class="ql-list" value="ordered"></button>
+                    <button class="ql-list" value="bullet"></button>
+                    <select class="ql-align">
+                      <option selected></option>
+                      <option value="center"></option>
+                      <option value="right"></option>
+                      <option value="justify"></option>
+                    </select>
+                  </span>
+                  <span class="ql-formats">
+                    <button class="ql-blockquote"></button>
+                    <button class="ql-link"></button>
+                    <button class="ql-image"></button>
+                    <button class="ql-code-block"></button>
+                    <button class="ql-video"></button>
+                  </span>
+                  <span class="ql-formats">
+                    <button class="ql-clean"></button>
+                  </span>
+            </div>
+    
+
+                        <div required class="form-control" name="body" id="editor" style="height: 300px;"></div>
+                    
                     </div>
                     <div class="form-group justify-content-center text-center">
                         <h5 class="text-center">Select the Schedule</h5>
@@ -139,6 +218,9 @@
             </div>
         </div>
     </div>
+
+    <script src="https://cdn.quilljs.com/1.0.0/quill.js"></script>
+
     <script>
         function week(){
         document.getElementById("week").style.display="block";
@@ -160,6 +242,12 @@
         document.getElementById("month").style.display="none";
         document.getElementById("year").style.display="none";
         }
+
+        var editor = new Quill('#editor', {
+        modules: { toolbar: '#toolbar' },
+        theme: 'snow'
+       });
+
     </script>
     
 
